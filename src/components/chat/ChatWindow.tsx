@@ -19,7 +19,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ agent, onClose, onMessageReceiv
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      content: `Hi there! I'm ${agent.name}. How can I help you today?`,
+      content: `Hi there! I'm ${agent.name}. Please send the Order ID number here`,
       sender: 'agent',
       timestamp: new Date(),
       read: true,
