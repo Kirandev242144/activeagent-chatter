@@ -19,7 +19,7 @@ const Index = () => {
               transition={{ delay: 0.2, duration: 0.5 }}
               className="text-3xl md:text-4xl font-bold tracking-tight text-gray-900 dark:text-white"
             >
-              Active Agent Dashboard
+              Chat Demo
             </motion.h1>
             <motion.p 
               initial={{ opacity: 0 }}
@@ -27,7 +27,7 @@ const Index = () => {
               transition={{ delay: 0.3, duration: 0.5 }}
               className="mt-4 text-lg text-gray-600 dark:text-gray-300"
             >
-              Monitor and chat with your agents in real-time
+              ASSR CHAT DEMO
             </motion.p>
           </div>
 
@@ -40,8 +40,7 @@ const Index = () => {
             <div className="w-full max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Dashboard Overview</h2>
               <p className="text-gray-600 dark:text-gray-300">
-                This is a placeholder for your dashboard content. Click the chat icon in the bottom right 
-                to see active and inactive agents.
+                Dummy chat box
               </p>
             </div>
           </motion.div>
