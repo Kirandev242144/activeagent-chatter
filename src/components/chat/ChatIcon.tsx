@@ -10,21 +10,21 @@ import { Message } from './ChatMessage';
 const mockAgents: Agent[] = [
   {
     id: '1',
-    name: 'Sarah Johnson',
+    name: 'Jake',
     avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
     isActive: true,
     unreadCount: 2,
   },
   {
     id: '2',
-    name: 'Michael Chen',
+    name: 'Oscar',
     avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
     isActive: true,
     unreadCount: 0,
   },
   {
     id: '3',
-    name: 'Emma Williams',
+    name: 'Merlin',
     avatar: 'https://randomuser.me/api/portraits/women/63.jpg',
     isActive: false,
     lastSeen: '2 hours ago',
@@ -32,7 +32,7 @@ const mockAgents: Agent[] = [
   },
   {
     id: '4',
-    name: 'David Rodriguez',
+    name: 'Casper',
     avatar: 'https://randomuser.me/api/portraits/men/91.jpg',
     isActive: false,
     lastSeen: 'yesterday',
