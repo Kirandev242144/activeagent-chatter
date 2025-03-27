@@ -1,12 +1,11 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import AgentList, { Agent } from './AgentList';
 import ChatWindow from './ChatWindow';
 import { useToast } from '@/hooks/use-toast';
 import { Message } from './ChatMessage';
+import { playMessageSound } from '@/utils/notificationSounds';
 
-// Temporary mock data with added unreadCount property
 const mockAgents: Agent[] = [
   {
     id: '1',
@@ -74,7 +73,6 @@ const ChatIcon: React.FC<ChatIconProps> = ({ className }) => {
   };
   
   const handleAgentSelect = (agent: Agent) => {
-    // Clear unread count when selecting an agent
     setAgents(prevAgents => 
       prevAgents.map(a => 
         a.id === agent.id ? { ...a, unreadCount: 0 } : a
@@ -89,9 +87,9 @@ const ChatIcon: React.FC<ChatIconProps> = ({ className }) => {
   };
 
   const handleNewMessage = (agentId: string, message: Message) => {
-    // If message is from agent and user is not currently chatting with this agent,
-    // increment the unread count
     if (message.sender === 'agent' && (!selectedAgent || selectedAgent.id !== agentId)) {
+      playMessageSound();
+      
       setAgents(prevAgents => 
         prevAgents.map(a => 
           a.id === agentId ? { ...a, unreadCount: (a.unreadCount || 0) + 1 } : a
@@ -100,17 +98,13 @@ const ChatIcon: React.FC<ChatIconProps> = ({ className }) => {
     }
   };
 
-  // For demo purposes: simulate receiving a new message every 20 seconds
   useEffect(() => {
     const interval = setInterval(() => {
-      // Randomly select an agent to send a message
       const randomIndex = Math.floor(Math.random() * agents.length);
       const randomAgentId = agents[randomIndex].id;
       
-      // Skip if this is the currently selected agent
       if (selectedAgent?.id === randomAgentId) return;
       
-      // Create a simulated message
       const simulatedMessage: Message = {
         id: Date.now().toString(),
         content: "You have a new message!",
@@ -120,7 +114,7 @@ const ChatIcon: React.FC<ChatIconProps> = ({ className }) => {
       };
       
       handleNewMessage(randomAgentId, simulatedMessage);
-    }, 20000); // Every 20 seconds
+    }, 20000);
     
     return () => clearInterval(interval);
   }, [agents, selectedAgent]);
@@ -150,7 +144,6 @@ const ChatIcon: React.FC<ChatIconProps> = ({ className }) => {
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
         </svg>
         
-        {/* Badge showing total unread messages count rather than just active agents */}
         {totalUnreadCount > 0 && (
           <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/3 bg-red-500 rounded-full">
             {totalUnreadCount}
@@ -174,7 +167,6 @@ const ChatIcon: React.FC<ChatIconProps> = ({ className }) => {
             onClose={handleCloseChat}
             onMessageReceived={(message) => {
               if (message.sender === 'agent') {
-                // Mark message as read since chat is open
                 message.read = true;
               }
             }}

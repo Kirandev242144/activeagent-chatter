@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Agent } from './AgentList';
@@ -7,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Paperclip, Send, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { playMessageSound } from '@/utils/notificationSounds';
 
 interface ChatWindowProps {
   agent: Agent;
@@ -30,7 +30,6 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ agent, onClose, onMessageReceiv
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
-  // Scroll to bottom whenever messages change
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
@@ -63,6 +62,9 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ agent, onClose, onMessageReceiv
         read: true, // Message is read since chat is open
       };
       setMessages(prev => [...prev, responseMessage]);
+      
+      // Play sound for incoming message
+      playMessageSound();
       
       // Notify parent component about the new message
       onMessageReceived?.(responseMessage);
