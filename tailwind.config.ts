@@ -66,7 +66,7 @@ export default {
 				chat: {
 					active: '#10b981',  // emerald-500
 					inactive: '#9ca3af', // gray-400
-					bubble: 'rgba(255, 255, 255, 0.8)',
+					bubble: 'rgba(255, 255, 255, 0.95)',
 					icon: '#4f46e5'  // indigo-600
 				}
 			},

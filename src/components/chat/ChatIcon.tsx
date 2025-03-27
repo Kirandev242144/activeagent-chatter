@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import AgentList, { Agent } from './AgentList';
+import ChatWindow from './ChatWindow';
 import { useToast } from '@/hooks/use-toast';
 
 // Temporary mock data for demonstration
@@ -53,22 +54,24 @@ interface ChatIconProps {
 
 const ChatIcon: React.FC<ChatIconProps> = ({ className }) => {
   const [isAgentListOpen, setIsAgentListOpen] = useState(false);
+  const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
   const { toast } = useToast();
   
   const toggleAgentList = () => {
-    setIsAgentListOpen(!isAgentListOpen);
+    if (selectedAgent) {
+      setSelectedAgent(null);
+    } else {
+      setIsAgentListOpen(!isAgentListOpen);
+    }
   };
   
   const handleAgentSelect = (agent: Agent) => {
-    // In a real app, this would navigate to a chat with this agent
-    // or open a chat window with this agent
-    toast({
-      title: `Chat with ${agent.name}`,
-      description: `You selected to chat with ${agent.name} (${agent.isActive ? 'Active' : 'Inactive'})`,
-      duration: 3000,
-    });
-    
+    setSelectedAgent(agent);
     setIsAgentListOpen(false);
+  };
+
+  const handleCloseChat = () => {
+    setSelectedAgent(null);
   };
 
   const activeAgentCount = mockAgents.filter(agent => agent.isActive).length;
@@ -111,6 +114,13 @@ const ChatIcon: React.FC<ChatIconProps> = ({ className }) => {
             isOpen={isAgentListOpen} 
             onClose={() => setIsAgentListOpen(false)} 
             onAgentSelect={handleAgentSelect}
+          />
+        )}
+        
+        {selectedAgent && (
+          <ChatWindow 
+            agent={selectedAgent}
+            onClose={handleCloseChat}
           />
         )}
       </AnimatePresence>

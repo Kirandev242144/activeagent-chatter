@@ -134,3 +134,24 @@
 .agent-item:hover {
   transform: translateY(-2px);
 }
+
+/* Chat window styles */
+.chat-message {
+  transition: all 0.3s ease;
+}
+
+.chat-input {
+  transition: all 0.2s ease;
+}
+
+.chat-media-preview {
+  transition: all 0.2s ease;
+}
+
+.chat-attachment-button {
+  transition: all 0.2s ease;
+}
+
+.chat-send-button {
+  transition: all 0.2s ease;
+}
