@@ -106,7 +106,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ agent, onClose, onMessageReceiv
       // Simulate agent response
       setTimeout(() => {
         const responseContent = isImage 
-          ? "I received your image. It looks great!"
+          ? "I received your image. i will review that order!"
           : `Thanks for sending the file "${file.name}".`;
           
         const responseMessage: Message = {
