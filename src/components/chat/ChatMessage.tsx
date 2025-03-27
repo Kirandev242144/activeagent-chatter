@@ -10,6 +10,7 @@ export interface Message {
   timestamp: Date;
   mediaUrl?: string;
   mediaType?: 'image' | 'file';
+  read: boolean; // Added read status flag
 }
 
 interface ChatMessageProps {

@@ -2,14 +2,16 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { MessageCircle } from 'lucide-react';
 
-// Agent interface
+// Agent interface with unreadCount property
 export interface Agent {
   id: string;
   name: string;
   avatar: string;
   isActive: boolean;
   lastSeen?: string;
+  unreadCount?: number;
 }
 
 interface AgentListProps {
@@ -90,13 +92,13 @@ const AgentList: React.FC<AgentListProps> = ({
   );
 };
 
-// Agent list item component
+// Agent list item component with unread messages badge
 const AgentItem: React.FC<{ agent: Agent; onClick: () => void }> = ({ agent, onClick }) => {
   return (
     <motion.div
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
-      className="agent-item flex items-center p-2 rounded-md cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800"
+      className="agent-item flex items-center p-2 rounded-md cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 relative"
       onClick={onClick}
     >
       <div className="relative">
@@ -114,12 +116,19 @@ const AgentItem: React.FC<{ agent: Agent; onClick: () => void }> = ({ agent, onC
           agent.isActive ? "bg-chat-active animate-pulse-subtle" : "bg-chat-inactive"
         )} />
       </div>
-      <div className="ml-3">
+      <div className="ml-3 flex-1">
         <div className="text-sm font-medium">{agent.name}</div>
         <div className="text-xs text-gray-500">
           {agent.isActive ? 'Online' : agent.lastSeen ? `Last seen ${agent.lastSeen}` : 'Offline'}
         </div>
       </div>
+      
+      {/* Unread messages badge */}
+      {agent.unreadCount && agent.unreadCount > 0 && (
+        <div className="flex items-center justify-center min-w-5 h-5 px-1.5 bg-red-500 text-white text-xs font-bold rounded-full">
+          {agent.unreadCount > 99 ? '99+' : agent.unreadCount}
+        </div>
+      )}
     </motion.div>
   );
 };

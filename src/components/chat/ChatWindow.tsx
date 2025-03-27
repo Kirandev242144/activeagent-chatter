@@ -11,9 +11,10 @@ import { useToast } from '@/hooks/use-toast';
 interface ChatWindowProps {
   agent: Agent;
   onClose: () => void;
+  onMessageReceived?: (message: Message) => void;
 }
 
-const ChatWindow: React.FC<ChatWindowProps> = ({ agent, onClose }) => {
+const ChatWindow: React.FC<ChatWindowProps> = ({ agent, onClose, onMessageReceived }) => {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -21,6 +22,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ agent, onClose }) => {
       content: `Hi there! I'm ${agent.name}. How can I help you today?`,
       sender: 'agent',
       timestamp: new Date(),
+      read: true,
     },
   ]);
   const [isUploading, setIsUploading] = useState(false);
@@ -45,6 +47,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ agent, onClose }) => {
       content: input.trim(),
       sender: 'user',
       timestamp: new Date(),
+      read: true, // User messages are always "read"
     };
     
     setMessages(prev => [...prev, newMessage]);
@@ -57,8 +60,12 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ agent, onClose }) => {
         content: `I received your message: "${input.trim()}"`,
         sender: 'agent',
         timestamp: new Date(),
+        read: true, // Message is read since chat is open
       };
       setMessages(prev => [...prev, responseMessage]);
+      
+      // Notify parent component about the new message
+      onMessageReceived?.(responseMessage);
     }, 1000);
   };
 
@@ -88,6 +95,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ agent, onClose }) => {
         timestamp: new Date(),
         mediaUrl: objectUrl,
         mediaType: isImage ? 'image' : 'file',
+        read: true, // User messages are always "read"
       };
       
       setMessages(prev => [...prev, newMessage]);
@@ -104,8 +112,12 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ agent, onClose }) => {
           content: responseContent,
           sender: 'agent',
           timestamp: new Date(),
+          read: true, // Message is read since chat is open
         };
         setMessages(prev => [...prev, responseMessage]);
+        
+        // Notify parent component about the new message
+        onMessageReceived?.(responseMessage);
       }, 1000);
       
       // Reset file input
